@@ -35,3 +35,6 @@ captures/
 .idea/*.iws
 .idea/workspace.xml
 .idea/tasks.xml
+
+# Start ignoring gradle.properties so API key is not shown
+gradle.properties
