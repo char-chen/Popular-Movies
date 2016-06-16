@@ -1,0 +1,6 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+        android:fragment="com.charleschen.popularmovies.SettingsActivity$SortPreferenceFragment"
+        android:icon="@drawable/ic_sync_black_24dp"
+        android:title="Sort order"/>
+</preference-headers>
