@@ -28,8 +28,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class MainFragment extends Fragment {
@@ -208,21 +206,6 @@ public class MainFragment extends Fragment {
                     if (!listData.contains(movie))
                         listData.add(movie);
                 }
-            }
-            if (sort_top_rating) {
-                Collections.sort(listData, new Comparator<Movie>() {
-                    @Override
-                    public int compare(Movie lhs, Movie rhs) {
-                        return Double.compare(rhs.vote_average, lhs.vote_average);
-                    }
-                });
-            } else {
-                Collections.sort(listData, new Comparator<Movie>() {
-                    @Override
-                    public int compare(Movie lhs, Movie rhs) {
-                        return Double.compare(rhs.popularity, lhs.popularity);
-                    }
-                });
             }
             return listData.toArray(new Movie[listData.size()]);
         }
