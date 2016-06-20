@@ -18,9 +18,12 @@ public class Movie implements Parcelable {
     int vote_count;
     boolean video;
     double vote_average;
+    String[] youtubeLinks;
+    Review reviews[];
 
     public Movie(String poster_path, String overview, String release_date, String original_title,
-                 double vote_average, double popularity, int id) {
+                 double vote_average, double popularity, int id, Review[] reviews, String[]
+                         youtubeLinks) {
         this.poster_path = poster_path;
         this.overview = overview;
         this.release_date = release_date;
@@ -28,6 +31,8 @@ public class Movie implements Parcelable {
         this.vote_average = vote_average;
         this.popularity = popularity;
         this.id = id;
+        this.reviews = reviews;
+        this.youtubeLinks = youtubeLinks;
     }
 
     protected Movie(Parcel in) {
@@ -45,10 +50,33 @@ public class Movie implements Parcelable {
         vote_count = in.readInt();
         video = in.readByte() != 0;
         vote_average = in.readDouble();
+        youtubeLinks = in.createStringArray();
+        reviews = in.createTypedArray(Review.CREATOR);
     }
 
-    public String getPosterPath() {
-        return "http://image.tmdb.org/t/p/w342/" + poster_path;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(poster_path);
+        dest.writeString(adult);
+        dest.writeString(overview);
+        dest.writeString(release_date);
+        dest.writeIntArray(genre_ids);
+        dest.writeInt(id);
+        dest.writeString(original_title);
+        dest.writeString(original_language);
+        dest.writeString(title);
+        dest.writeString(backdrop_path);
+        dest.writeDouble(popularity);
+        dest.writeInt(vote_count);
+        dest.writeByte((byte) (video ? 1 : 0));
+        dest.writeDouble(vote_average);
+        dest.writeStringArray(youtubeLinks);
+        dest.writeTypedArray(reviews, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -62,6 +90,10 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public String getPosterPath() {
+        return "http://image.tmdb.org/t/p/w342/" + poster_path;
+    }
 
     @Override
     public String toString() {
@@ -84,28 +116,5 @@ public class Movie implements Parcelable {
     @Override
     public boolean equals(Object rhs) {
         return rhs != null && hashCode() == rhs.hashCode();
-    }
-
-    @Override
-    public int describeContents() {
-        return hashCode();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(poster_path);
-        dest.writeString(adult);
-        dest.writeString(overview);
-        dest.writeString(release_date);
-        dest.writeIntArray(genre_ids);
-        dest.writeInt(id);
-        dest.writeString(original_title);
-        dest.writeString(original_language);
-        dest.writeString(title);
-        dest.writeString(backdrop_path);
-        dest.writeDouble(popularity);
-        dest.writeInt(vote_count);
-        dest.writeByte((byte) (video ? 1 : 0));
-        dest.writeDouble(vote_average);
     }
 }
